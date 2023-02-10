@@ -1,0 +1,42 @@
+version: '3'
+services:
+  nginx:
+    build: .
+    environment:
+      - HOST_NAME=localhost
+      # - OPENSSL_CONF=/opt/openssl.conf
+      - DB_USER=postgres
+      - DB_PASS=2ljviio82
+      - DB_NAME=wormhole
+      - MQ_HOST=rabbit
+      - MQ_USER=guest
+      - MQ_PASS=guest
+      - MQ_PORT=5672
+      - LOG_HOST=logstash
+      - LOG_PORT=5514
+      - LOG_PROTO=tcp
+      - LOG_FLUSH=1
+      - LOG_DROP=1048576
+      - DNS_SERVER=dnsmasq
+      - LOG_LEVEL=info
+      - CODE_CACHE=off
+      - FORCE_SSL=false
+      - HTTP_PORT=80
+      - HTTPS_PORT=443
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=wjioiMfvxSd@X43s_dfsx4
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - ./resources:/opt/resources
+      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./openssl.cnf:/usr/local/gmssl/ssl/openssl.cnf
+      - ./ssl:/opt/ssl
+    networks:
+      - innernet
+
+networks:
+  innernet:
+    driver: bridge
